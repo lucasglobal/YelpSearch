@@ -8,13 +8,21 @@
 
 import UIKit
 
-class BusinessesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class BusinessesViewController: UIViewController, UITableViewDelegate, UITableViewDataSource,UISearchBarDelegate {
 
     @IBOutlet weak var tableView: UITableView!
     var businesses: [Business]!
+    var searchbar: UISearchBar!
+    var filteredBusinesses: [Business]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        self.searchbar = UISearchBar()
+        self.searchbar.sizeToFit()
+        navigationItem.titleView = self.searchbar
+        self.searchbar.delegate = self
+        
         self.tableView.dataSource = self
         self.tableView.delegate = self
         tableView.rowHeight = UITableViewAutomaticDimension
@@ -41,15 +49,42 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
         }
 */
     }
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        filteredBusinesses = searchText.isEmpty ? businesses : businesses.filter({(businessData: Business) -> Bool in
+            
+            return businessData.name!.rangeOfString(searchText, options: .CaseInsensitiveSearch) != nil
+        })
+        
+        // When there is no text, filteredData is the same as the original data
+        if searchText.isEmpty {
+            filteredBusinesses = businesses
+        } else {
+            // The user has entered text into the search box
+            // Use the filter method to iterate over all items in the data array
+            // For each item, return true if the item should be included and false if the
+            // item should NOT be included
+            filteredBusinesses = businesses.filter({(businessItem: Business) -> Bool in
+                // If dataItem matches the searchText, return true to include it
+                if businessItem.name!.rangeOfString(searchText, options: .CaseInsensitiveSearch) != nil {
+                    return true
+                } else {
+                    return false
+                }
+            })
+        }
+        tableView.reloadData()
+    }
+    
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("BusinessCell", forIndexPath: indexPath) as! BusinessCell
-        cell.business = businesses[indexPath.row]
+        cell.business = filteredBusinesses[indexPath.row]
+        //cell.business = businesses[indexPath.row]
         return cell
     
     }
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if businesses != nil{
-            return businesses!.count
+        if filteredBusinesses != nil{
+            return filteredBusinesses!.count
         }
         else{
             return 0
