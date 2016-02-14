@@ -27,6 +27,7 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
         self.tableView.delegate = self
         tableView.rowHeight = UITableViewAutomaticDimension
         tableView.estimatedRowHeight = 120
+        tableView.keyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag
         
         Business.searchWithTerm("Thai", completion: { (businesses: [Business]!, error: NSError!) -> Void in
             self.businesses = businesses
@@ -35,6 +36,10 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
                 print(business.name!)
                 print(business.address!)
             }
+            
+            self.filteredBusinesses = businesses
+            self.tableView.reloadData()
+
         })
 
         
@@ -49,13 +54,10 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
         }
 */
     }
+    
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
-        filteredBusinesses = searchText.isEmpty ? businesses : businesses.filter({(businessData: Business) -> Bool in
-            
-            return businessData.name!.rangeOfString(searchText, options: .CaseInsensitiveSearch) != nil
-        })
-        
         // When there is no text, filteredData is the same as the original data
+        print(searchText)
         if searchText.isEmpty {
             filteredBusinesses = businesses
         } else {
@@ -78,6 +80,7 @@ class BusinessesViewController: UIViewController, UITableViewDelegate, UITableVi
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("BusinessCell", forIndexPath: indexPath) as! BusinessCell
         cell.business = filteredBusinesses[indexPath.row]
+        print(cell.nameLabel.frame)
         //cell.business = businesses[indexPath.row]
         return cell
     

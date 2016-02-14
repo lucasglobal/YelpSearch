@@ -44,6 +44,9 @@
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="1. Grand Puh Bah" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9gS-6Z-YGT">
                                                     <rect key="frame" x="81" y="8" width="125" height="18"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="125" id="5Ra-pP-jp1"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="15"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                                     <nil key="highlightedColor"/>
@@ -100,6 +103,7 @@
                                                 <constraint firstItem="9gS-6Z-YGT" firstAttribute="top" secondItem="GJO-EV-8EB" secondAttribute="top" constant="8" id="phm-WD-z2j"/>
                                                 <constraint firstAttribute="trailing" secondItem="pbB-4p-cf1" secondAttribute="trailing" constant="8" id="rmY-L1-wCE"/>
                                                 <constraint firstItem="IyN-DY-lQP" firstAttribute="leading" secondItem="nsR-ey-cH0" secondAttribute="leading" id="wjr-R2-ngb"/>
+                                                <constraint firstItem="yuo-4o-E7G" firstAttribute="top" secondItem="9gS-6Z-YGT" secondAttribute="bottom" id="zO6-oe-kBp"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
